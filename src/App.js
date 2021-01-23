@@ -4,6 +4,7 @@ import Recipe from "./components/Recipes/recipe";
 import RecipeSingleView from "./components/Recipes/recipeSingleView";
 import Navbar from "./components/Navbar/navbar";
 import RecipeEdit from "./components/Recipes/recipeEdit";
+import RecipeAdd from "./components/Recipes/recipeAdd";
 import "./App.css";
 
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Switch>
         <Route path="/recipe/:id" component={RecipeSingleView} />
         <Route path="/edit/recipe/:id" component={RecipeEdit} />
+        <Route path="/addnewrecipe" component={RecipeAdd} />
         <Route path="/" component={Recipe} exact />
       </Switch>
     </React.Fragment>

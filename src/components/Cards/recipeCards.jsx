@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 const RecipeCard = ({ items }) => {
-  const { title, images, description, uuid } = items;
+  const { title, description, images, uuid } = items;
   return (
     <div key={uuid} className="card p-0 m-3" style={{ width: "18rem" }}>
       <div style={{ height: "200px" }}>
@@ -17,11 +17,8 @@ const RecipeCard = ({ items }) => {
         <p className="card-text" style={{ height: "50px" }}>
           {description}
         </p>
-        <Link to={`/recipe/${uuid}`} className="btn btn-primary mx-2">
+        <Link to={`/recipe/${uuid}`} className="btn btn-primary ">
           View Recipe
-        </Link>
-        <Link to={`/edit/recipe/${uuid}`} className="btn btn-success">
-          Edit Recipe
         </Link>
       </div>
     </div>

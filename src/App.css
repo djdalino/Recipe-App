@@ -7,6 +7,76 @@
   pointer-events: none;
 }
 
+a.navbar-brand:hover {
+  opacity: 0.8;
+}
+
+a.navbar-brand {
+  font-size: 30px;
+  color: #188754 !important;
+  font-weight: 700;
+}
+
+.btn-success:hover {
+  color: #fff;
+  background-color: #198754 !important;
+  border-color: #198754 !important;
+  opacity: 0.8;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #f53535 !important;
+  border-color: #f53535 !important;
+}
+
+.btn-primary:hover {
+  color: #fff;
+  background-color: #f53535 !important;
+  border-color: #f53535 !important;
+  opacity: 0.8;
+}
+
+.bg-primary {
+  background-color: #f53535 !important;
+}
+
+@media only screen and (max-width: 988px) {
+  .card {
+    width: 90% !important;
+    margin: auto !important;
+    margin-bottom: 30px !important;
+    text-align: center !important;
+  }
+  .badge {
+    white-space: normal !important;
+  }
+  img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
+  .d-flex.p-1.rounded {
+    display: block !important;
+  }
+
+  .p-5 {
+    padding: 2rem !important;
+  }
+
+  .m-1 {
+    margin: 0px;
+  }
+  .col.sec.mt-3.shadow.p-5.mb-5.bg-white.rounded {
+    padding: 0 !important;
+  }
+
+  .col-2.m-4.p-4 {
+    width: 90%;
+    padding: 0 !important;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;

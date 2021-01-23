@@ -26,6 +26,15 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/addnewrecipe"
+                >
+                  Add new recipe
+                </Link>
+              </li>
             </ul>
           </div>
         </div>

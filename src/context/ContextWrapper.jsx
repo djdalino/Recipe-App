@@ -5,9 +5,6 @@ const ContextWrapper = ({ children }) => {
   const [results, setResults] = useState([]);
   const [singleResult, setSingleResult] = useState([]);
 
-  useEffect(() => {
-    recipeData();
-  }, []);
   const recipeData = async () => {
     try {
       const res = await axios.get(`http://localhost:3001/recipes`);
@@ -16,7 +13,9 @@ const ContextWrapper = ({ children }) => {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    recipeData();
+  }, []);
   return (
     <HeaderContext.Provider
       value={{

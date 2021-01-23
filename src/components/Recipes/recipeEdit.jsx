@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import IngredientEdit from "./recipeIngredientEdit";
 import axios from "axios";
 const RecipeEdit = props => {
   const idParam = props.match.params.id;
   // const { results } = useContext(HeaderContext);
   const [data, setData] = useState([]);
   const [ingredientArr, setIngredientArr] = useState([]);
+  const [directionsArr, setDirectionsArr] = useState([]);
   useEffect(() => {
     getMatchData(idParam);
-  }, []);
+  }, [idParam]);
   const handleInputChange = e => {
     const { name, value } = e.target;
 
@@ -22,6 +22,10 @@ const RecipeEdit = props => {
       res[i] = { ...res[i], [name]: value };
       return res;
     });
+
+    // setIngredientArr(prevState => [...prevState, { [name]: value }]);
+
+    // setIngredientArr({ ...ingredientArr, [name]: value });
   };
 
   const getMatchData = async id => {
@@ -29,24 +33,18 @@ const RecipeEdit = props => {
       const res = await axios.get(`http://localhost:3001/recipes/${id}`);
       setData(res.data);
       setIngredientArr(res.data.ingredients);
+      setDirectionsArr(res.data.directions);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const {
-    title,
-    description,
-    ingredients,
-    servings,
-    prepTime,
-    cookTime
-  } = data;
+  const { title, description, servings, prepTime, cookTime } = data;
 
   return (
     <div className="container">
       <h2 className="text-center">Edit recipe</h2>
-      <div className="container">
+      <div className="container col-9">
         <div className="mb-3">
           <label className="fw-bold form-label">Title:</label>
           <input
@@ -98,9 +96,6 @@ const RecipeEdit = props => {
             onChange={handleInputChange}
           />
         </div>
-        {/* {ingredientArr.map(ing => {
-          return <IngredientEdit key={ing.uuid} ingredient={ing} />;
-        })} */}
         <div className="mb-3">
           <label className="fw-bold form-label">Ingredients:</label>
           <div className="row">
@@ -110,7 +105,7 @@ const RecipeEdit = props => {
           </div>
           {ingredientArr.map((ing, i) => {
             return (
-              <div className="row" key={ing.uuid}>
+              <div className="row" key={i}>
                 <input
                   type="text"
                   name="amount"
@@ -132,6 +127,32 @@ const RecipeEdit = props => {
                   value={ing.name}
                   onChange={handleIngredientChange}
                 />
+              </div>
+            );
+          })}
+        </div>
+        <div className="mb-3">
+          <label className="fw-bold form-label">Instructions:</label>
+          {directionsArr.map((dir, i) => {
+            return (
+              <div className="row mb-1 mx-auto" key={i}>
+                <input
+                  type="text"
+                  name="amount"
+                  className="form-control col"
+                  value={dir.instructions}
+                  onChange={handleIngredientChange}
+                />
+                <select
+                  className="col form-select mx-3"
+                  name="optional"
+                  id="optional"
+                  aria-label="Default select example"
+                >
+                  <option defaultValue>Open this select menu</option>
+                  <option value="true">True</option>
+                  <option value="false">False</option>
+                </select>
               </div>
             );
           })}
