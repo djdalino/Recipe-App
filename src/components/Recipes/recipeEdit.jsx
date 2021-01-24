@@ -42,123 +42,195 @@ const RecipeEdit = props => {
   const { title, description, servings, prepTime, cookTime } = data;
 
   return (
-    <div className="container">
-      <h2 className="text-center">Edit recipe</h2>
-      <div className="container col-9">
-        <div className="mb-3">
-          <label className="fw-bold form-label">Title:</label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="name@example.com"
-            name="title"
-            value={title}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Description:</label>
-          <textarea
-            className="form-control"
-            name="description"
-            rows="3"
-            value={description}
-            onChange={handleInputChange}
-          ></textarea>
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Servings:</label>
-          <input
-            type="text"
-            name="servings"
-            className="form-control"
-            value={servings}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Preperation Time:</label>
-          <input
-            type="text"
-            name="prepTime"
-            className="form-control"
-            value={prepTime}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Cooking Time:</label>
-          <input
-            type="text"
-            name="cookTime"
-            className="form-control"
-            value={cookTime}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Ingredients:</label>
-          <div className="row">
-            <label className="form-label col">Amount:</label>
-            <label className="form-label col">Measure:</label>
-            <label className="form-label col">Name:</label>
+    <form className="container d-flex flex-column mt-3">
+      <div className="col-9 mb-3 mx-auto">
+        <label htmlFor="title" className="fw-bold form-label">
+          Title
+        </label>
+        <input
+          type="text"
+          name="title"
+          className="form-control"
+          id="title"
+          value={title}
+          onChange={handleInputChange}
+        />
+      </div>
+      <div className="col-9 mx-auto">
+        <div className="row">
+          <div className="col">
+            <div className="mb-3 mx-auto">
+              <label htmlFor="descriptions" className="fw-bold form-label">
+                Description
+              </label>
+              <textarea
+                className="form-control mb-3"
+                name="description"
+                id="descriptions"
+                rows="3"
+                value={description}
+                onChange={handleInputChange}
+              ></textarea>
+              <div className="row mb-3  ">
+                <div className="col">
+                  <label htmlFor="Ingredients" className="fw-bold form-label">
+                    Ingredients:
+                  </label>
+                </div>
+              </div>
+              {ingredientArr.map((ing, i) => {
+                return (
+                  <div className="card mx-auto col ">
+                    <div className="card-body">
+                      <div className="row mb-3 col-9 mx-auto">
+                        <input
+                          type="text"
+                          name="amount"
+                          className="form-control"
+                          id="amount"
+                          placeholder="Amount"
+                          value={ing.amount}
+                        />
+                        <input
+                          type="text"
+                          name="measurements"
+                          className="form-control"
+                          id="measurement"
+                          placeholder="measurement"
+                          value={ing.measurement}
+                        />
+                        <input
+                          type="text"
+                          name="name"
+                          className="form-control"
+                          id="name"
+                          placeholder="name"
+                          value={ing.name}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+              <div className="col">
+                <a className="nav-link col w-100">Add Ingredients</a>
+              </div>
+              {/* {inputs} */}
+            </div>
           </div>
-          {ingredientArr.map((ing, i) => {
-            return (
-              <div className="row" key={i}>
-                <input
-                  type="text"
-                  name="amount"
-                  className="form-control col mx-5 my-1"
-                  value={ing.amount}
-                  onChange={handleIngredientChange}
-                />
-                <input
-                  type="text"
-                  name="measurement"
-                  className="form-control col mx-5 my-1"
-                  value={ing.measurement}
-                  onChange={handleIngredientChange}
-                />
-                <input
-                  type="text"
-                  name="name"
-                  className="form-control col mx-5 my-1"
-                  value={ing.name}
-                  onChange={handleIngredientChange}
-                />
+          <div className="col">
+            <label htmlFor="Servings" className="fw-bold form-label">
+              Servings:
+            </label>
+            <input
+              type="text"
+              name="servings"
+              className="form-control"
+              id="Servings"
+              value={servings}
+              onChange={handleInputChange}
+            />
+
+            <label htmlFor="PrepTime" className="fw-bold form-label">
+              Preperation Time:
+            </label>
+            <input
+              type="text"
+              name="prepTime"
+              className="form-control"
+              id="PrepTime"
+              value={prepTime}
+              onChange={handleInputChange}
+            />
+            <label htmlFor="CookTime" className="fw-bold form-label">
+              Cooking Time:
+            </label>
+            <input
+              type="text"
+              name="cookTime"
+              className="form-control"
+              id="CookTime"
+              value={cookTime}
+              onChange={handleInputChange}
+            />
+            <div className="row mb-3 mt-3 col">
+              <div className="col">
+                <label htmlFor="Ingredients" className="fw-bold form-label">
+                  Directions:
+                </label>
               </div>
-            );
-          })}
-        </div>
-        <div className="mb-3">
-          <label className="fw-bold form-label">Instructions:</label>
-          {directionsArr.map((dir, i) => {
-            return (
-              <div className="row mb-1 mx-auto" key={i}>
-                <input
-                  type="text"
-                  name="amount"
-                  className="form-control col"
-                  value={dir.instructions}
-                  onChange={handleIngredientChange}
-                />
-                <select
-                  className="col form-select mx-3"
-                  name="optional"
-                  id="optional"
-                  aria-label="Default select example"
-                >
-                  <option defaultValue>Open this select menu</option>
-                  <option value="true">True</option>
-                  <option value="false">False</option>
-                </select>
-              </div>
-            );
-          })}
+              <div className="col"></div>
+            </div>
+            {directionsArr.map((dir, i) => {
+              const select = params => {
+                if (params === true) {
+                  return (
+                    <select
+                      className="form-select"
+                      name="optional"
+                      id="optional"
+                      aria-label="Default select example"
+                    >
+                      <option defaultValue>Choose:</option>
+                      <option selected value="true">
+                        True
+                      </option>
+                      <option value="false">False</option>
+                    </select>
+                  );
+                } else {
+                  return (
+                    <select
+                      className="form-select"
+                      name="optional"
+                      id="optional"
+                      aria-label="Default select example"
+                    >
+                      <option defaultValue>Choose:</option>
+                      <option value="true">True</option>
+                      <option selected value="false">
+                        False
+                      </option>
+                    </select>
+                  );
+                }
+              };
+              return (
+                <div className="row mb-3 col">
+                  <div className="col-9">
+                    <label htmlFor="Instructions" className="form-label">
+                      {i >= 0 ? `Instruction ${i + 1}` : ""}
+                    </label>
+                    <input
+                      type="text"
+                      name="instructions"
+                      className="form-control"
+                      id="Instructions"
+                      value={dir.instructions}
+                    />
+                  </div>
+
+                  <div className="col-3">
+                    <label htmlFor="optional" className="form-label">
+                      Optional
+                    </label>
+
+                    {select(dir.optional)}
+                  </div>
+                </div>
+              );
+            })}
+            <a className="nav-link col w-100">Add Instructions</a>
+            {/* {instructions} */}
+          </div>
         </div>
       </div>
-    </div>
+      <input
+        className="btn btn-primary col-3 m-auto"
+        type="submit"
+        value="Update"
+      />
+    </form>
   );
 };
 

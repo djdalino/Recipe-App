@@ -40,6 +40,9 @@ a.navbar-brand {
 .bg-primary {
   background-color: #f53535 !important;
 }
+a.btn.btn-primary {
+  display: block;
+}
 
 @media only screen and (max-width: 988px) {
   .card {
