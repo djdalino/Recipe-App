@@ -21,6 +21,14 @@ const RecipeAdd = () => {
       optional: Boolean
     }
   ]);
+  const handleAddDirections = () => {
+    setDirections([...directions, { instructions: "", optional: Boolean }]);
+  };
+  const handleDirectionOnChange = (e, i) => {
+    const items = [...directions];
+    items[i][e.target.name] = e.target.value;
+    setDirections(items);
+  };
   const handleChange = (e, i) => {
     const items = [...ingredients];
     items[i][e.target.name] = e.target.value;
@@ -36,29 +44,38 @@ const RecipeAdd = () => {
   const handleOnSubmit = async e => {
     e.preventDefault();
 
-    const data = {
-      uuid: uuidv4(),
-      title: title,
-      description: description,
-      servings: serving,
-      prepTime: prepTime,
-      cookTime: cookTime,
-      ingredients: [ingredients]
-    };
-    console.log(data);
-    // setValArray(data);
-    // try {
-    //   const data = new FormData();
-    //   data.append("title", title);
-    //   data.append("descriptions", description);
-    //   data.append("servings", serving);
-    //   data.append("prepTime", prepTime);
-    //   data.append("cookTime", cookTime);
-    //   await axios.post("http://localhost:3001/recipes", data);
-    //   console.log("success");
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    if (
+      title !== "" &&
+      description !== "" &&
+      serving !== "" &&
+      prepTime !== "" &&
+      cookTime !== ""
+    ) {
+      try {
+        const data = {
+          uuid: uuidv4(),
+          title: title,
+          descriptions: description,
+          images: {
+            full: "/img/pancake_mountain.jpg",
+            medium: "/img/pancake_mountain--m.jpg"
+          },
+
+          servings: serving,
+          prepTime: prepTime,
+          cookTime: cookTime,
+          ingredients: ingredients,
+          directions: directions
+        };
+        await axios.post("http://localhost:3001/recipes", data);
+        console.log(data);
+        console.log("success");
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      alert("Fields with * must not be empty");
+    }
   };
   return (
     <form
@@ -67,7 +84,7 @@ const RecipeAdd = () => {
     >
       <div className="col-9 mb-3 mx-auto">
         <label htmlFor="title" className="fw-bold form-label">
-          Title
+          Title *
         </label>
         <input
           type="text"
@@ -82,7 +99,7 @@ const RecipeAdd = () => {
           <div className="col">
             <div className="mb-3 mx-auto">
               <label htmlFor="descriptions" className="fw-bold form-label">
-                Description
+                Description *
               </label>
               <textarea
                 className="form-control mb-3"
@@ -94,7 +111,7 @@ const RecipeAdd = () => {
               <div className="row mb-3  ">
                 <div className="col">
                   <label htmlFor="Ingredients" className="fw-bold form-label">
-                    Ingredients:
+                    Ingredients: *
                   </label>
                 </div>
                 <div className="col"></div>
@@ -150,7 +167,7 @@ const RecipeAdd = () => {
           </div>
           <div className="col">
             <label htmlFor="Servings" className="fw-bold form-label">
-              Servings:
+              Servings: *
             </label>
             <input
               type="text"
@@ -161,7 +178,7 @@ const RecipeAdd = () => {
             />
 
             <label htmlFor="PrepTime" className="fw-bold form-label">
-              Preperation Time:
+              Preperation Time: *
             </label>
             <input
               type="text"
@@ -171,7 +188,7 @@ const RecipeAdd = () => {
               onChange={e => setPrepTime(e.target.value)}
             />
             <label htmlFor="CookTime" className="fw-bold form-label">
-              Cooking Time:
+              Cooking Time: *
             </label>
             <input
               type="text"
@@ -190,8 +207,10 @@ const RecipeAdd = () => {
             </div>
             {directions.map((direction, index) => {
               const { instructions, optional } = direction;
+              const g = true;
+              const h = false;
               return (
-                <div className="row mb-3 col">
+                <div className="row mb-3 col" key={index}>
                   <div className="col-9">
                     <label htmlFor="Instructions" className="form-label">
                       Instructions:
@@ -202,6 +221,7 @@ const RecipeAdd = () => {
                       className="form-control"
                       id="Instructions"
                       value={instructions}
+                      onChange={e => handleDirectionOnChange(e, index)}
                     />
                   </div>
                   <div className="col-3">
@@ -213,17 +233,20 @@ const RecipeAdd = () => {
                       name="optional"
                       id="optional"
                       aria-label="Default select example"
+                      onChange={e => handleDirectionOnChange(e, index)}
                     >
-                      <option defaultValue>Choose:</option>
-                      <option value="true">True</option>
-                      <option value="false">False</option>
+                      <option value={g}></option>
+                      <option value={g}>True</option>
+                      <option value={h}>False</option>
                     </select>
                   </div>
                 </div>
               );
             })}
 
-            <a className="nav-links col w-100">Add Instructions</a>
+            <a className="nav-links col w-100" onClick={handleAddDirections}>
+              Add Instructions
+            </a>
           </div>
         </div>
       </div>

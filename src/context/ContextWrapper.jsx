@@ -15,7 +15,7 @@ const ContextWrapper = ({ children }) => {
   };
   useEffect(() => {
     recipeData();
-  }, []);
+  }, [results]);
   return (
     <HeaderContext.Provider
       value={{
