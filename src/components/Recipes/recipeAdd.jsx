@@ -2,137 +2,50 @@ import React, { useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 const RecipeAdd = () => {
-  const [valArray, setValArray] = useState([]);
-  const [inputs, setInputs] = useState([]);
-  const [instructions, setInstructions] = useState([]);
-  const [inputValues, setInputValues] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [serving, setServing] = useState("");
   const [prepTime, setPrepTime] = useState("");
   const [cookTime, setCookTime] = useState("");
-  const [amount, setAmount] = useState([]);
-  const [measure, setMeasure] = useState([]);
-  const [name, setName] = useState([]);
-
-  const handleOnChange = e => {
-    const { name, value } = e.target;
-    setInputValues({ ...inputValues, [name]: value });
+  const [ingredients, setIngredients] = useState([
+    {
+      uuid: uuidv4(),
+      amount: "",
+      measurement: "",
+      name: ""
+    }
+  ]);
+  const [directions, setDirections] = useState([
+    {
+      instructions: "",
+      optional: Boolean
+    }
+  ]);
+  const handleChange = (e, i) => {
+    const items = [...ingredients];
+    items[i][e.target.name] = e.target.value;
+    setIngredients(items);
   };
-
   const addMoreIngredient = () => {
-    setAmount([...amount, ""]);
-    setMeasure([...measure, ""]);
-    setName([...name, ""]);
+    setIngredients([
+      ...ingredients,
+      { uuid: uuidv4(), amount: "", measurement: "", name: "" }
+    ]);
   };
 
-  const onChange = (e, i) => {
-    setAmount([(amount[i] = e.target.value)]);
-  };
-  const handleAddMoreIngredient = () => {
-    const amount = `amount${inputs.length}`;
-    const measure = `measure${inputs.length}`;
-    const name = `name${inputs.length}`;
-
-    let inputBox = (
-      <div className="card mx-auto col" key={inputs.length}>
-        <div className="card-body">
-          <div className="row mb-3 col-9 mx-auto">
-            <input
-              type="text"
-              name={amount}
-              className="form-control"
-              id={amount}
-              onChange={handleOnChange}
-              placeholder="Amount"
-            />
-
-            <input
-              type="text"
-              name={measure}
-              className="form-control"
-              id={measure}
-              onChange={handleOnChange}
-              placeholder="Measurement"
-            />
-
-            <input
-              type="text"
-              name={name}
-              className="form-control"
-              id={name}
-              onChange={handleOnChange}
-              placeholder="Name"
-            />
-          </div>
-        </div>
-      </div>
-    );
-
-    setInputs(prevState => [...prevState, inputBox]);
-  };
-
-  const handleMoreInstructions = () => {
-    console.log("clicked!");
-    const instruction = `instructions-${instructions.length}`;
-    const optional = `optional-${instructions.length}`;
-
-    const instruct = (
-      <div className="row mb-3 col">
-        <div className="col-9">
-          <label htmlFor={instruction} className="form-label">
-            Instructions:
-          </label>
-          <input
-            type="text"
-            name={instruction}
-            className="form-control"
-            id={instruction}
-            onChange={handleOnChange}
-          />
-        </div>
-        <div className="col-3">
-          <label htmlFor={optional} className="form-label">
-            Optional
-          </label>
-          <select
-            className="form-select"
-            name={optional}
-            id={optional}
-            aria-label="Default select example"
-            onChange={handleOnChange}
-          >
-            <option defaultValue>Open this select menu</option>
-            <option value="true">True</option>
-            <option value="false">False</option>
-          </select>
-        </div>
-      </div>
-    );
-
-    setInstructions(prevState => [...prevState, instruct]);
-  };
-  // const onChange = (e, index) => {
-  //   const { amount, measurement, name } = ingredients;
-  //   amount[index] = e.target.value;
-  //   measurement[index] = e.target.value;
-  //   name[index] = e.target.value;
-  //   setIngredients([
-  //     ...ingredients,
-  //     { amount: amount, measurement: measurement, name: name }
-  //   ]);
-  // };
   const handleOnSubmit = async e => {
     e.preventDefault();
 
-    // const data = {
-    //   uuid: uuidv4(),
-    //   title: title,
-    //   description: description,
-    //   servings: serving,
-    //   prepTime: prepTime,
-    //   cookTime: cookTime
-    // };
+    const data = {
+      uuid: uuidv4(),
+      title: title,
+      description: description,
+      servings: serving,
+      prepTime: prepTime,
+      cookTime: cookTime,
+      ingredients: [ingredients]
+    };
+    console.log(data);
     // setValArray(data);
     // try {
     //   const data = new FormData();
@@ -152,49 +65,6 @@ const RecipeAdd = () => {
       onSubmit={handleOnSubmit}
       className="container d-flex flex-column mt-3"
     >
-      {/* {amount.map((a, i) => {
-          return (
-            <div>
-              <input type="text" value={a} onChange={e => onChange(e, i)} />
-            </div>
-          );
-        })}
-        {measure.map((m, i) => {
-          return (
-            <div>
-              <input
-                type="text"
-                value={m}
-                onChange={e => setMeasure([(measure[i] = e.target.value)])}
-              />
-            </div>
-          );
-        })}
-        {name.map((n, i) => {
-          return (
-            <div>
-              <input
-                type="text"
-                value={n}
-                onChange={e => setName([...name, (name[i] = e.target.value)])}
-              />
-            </div>
-          );
-        })}
-        <button onClick={e => addMoreIngredient(e)}>add more</button> */}
-      {/* {ingredients.map((item, index) => {
-        return (
-          <div key={index}>
-            <input value={item.amount} onChange={e => onChange(e, index)} />
-            <input
-              value={item.measurement}
-              onChange={e => onChange(e, index)}
-            />
-            <input value={item.name} onChange={e => onChange(e, index)} />
-          </div>
-        );
-      })} */}
-      {/* <button onClick={e => addMoreIngredient(e)}>add more</button> */}
       <div className="col-9 mb-3 mx-auto">
         <label htmlFor="title" className="fw-bold form-label">
           Title
@@ -229,37 +99,50 @@ const RecipeAdd = () => {
                 </div>
                 <div className="col"></div>
               </div>
-              <div className="card mx-auto col ">
-                <div className="card-body">
-                  <div className="row mb-3 col-9 mx-auto">
-                    <input
-                      type="text"
-                      name="amount"
-                      className="form-control"
-                      id="amount"
-                      placeholder="Amount"
-                    />
-                    <input
-                      type="text"
-                      name="measurement"
-                      className="form-control"
-                      id="measurement"
-                      placeholder="measurement"
-                    />
-                    <input
-                      type="text"
-                      name="name"
-                      className="form-control"
-                      id="name"
-                      placeholder="name"
-                    />
+              {ingredients.map((ingredient, index) => {
+                const { amount, measurement, name } = ingredient;
+                return (
+                  <div key={index}>
+                    <div className="card mx-auto col ">
+                      <div className="card-body">
+                        <div className="row mb-3 col-9 mx-auto">
+                          <input
+                            type="text"
+                            name="amount"
+                            className="form-control"
+                            id="amount"
+                            placeholder="Amount"
+                            value={amount}
+                            onChange={e => handleChange(e, index)}
+                          />
+                          <input
+                            type="text"
+                            name="measurement"
+                            className="form-control"
+                            id="measurement"
+                            placeholder="measurement"
+                            value={measurement}
+                            onChange={e => handleChange(e, index)}
+                          />
+                          <input
+                            type="text"
+                            name="name"
+                            className="form-control"
+                            id="name"
+                            placeholder="name"
+                            value={name}
+                            onChange={e => handleChange(e, index)}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              {inputs}
+                );
+              })}
+
               <a
                 className="nav-link col w-100"
-                onClick={() => handleAddMoreIngredient()}
+                onClick={() => addMoreIngredient()}
               >
                 Add Ingredients
               </a>
@@ -305,41 +188,42 @@ const RecipeAdd = () => {
               </div>
               <div className="col"></div>
             </div>
-            <div className="row mb-3 col">
-              <div className="col-9">
-                <label htmlFor="Instructions" className="form-label">
-                  Instructions:
-                </label>
-                <input
-                  type="text"
-                  name="instructions"
-                  className="form-control"
-                  id="Instructions"
-                />
-              </div>
-              <div className="col-3">
-                <label htmlFor="optional" className="form-label">
-                  Optional
-                </label>
-                <select
-                  className="form-select"
-                  name="optional"
-                  id="optional"
-                  aria-label="Default select example"
-                >
-                  <option defaultValue>Choose:</option>
-                  <option value="true">True</option>
-                  <option value="false">False</option>
-                </select>
-              </div>
-            </div>
-            {instructions}
-            <a
-              className="nav-links col w-100"
-              onClick={() => handleMoreInstructions()}
-            >
-              Add Instructions
-            </a>
+            {directions.map((direction, index) => {
+              const { instructions, optional } = direction;
+              return (
+                <div className="row mb-3 col">
+                  <div className="col-9">
+                    <label htmlFor="Instructions" className="form-label">
+                      Instructions:
+                    </label>
+                    <input
+                      type="text"
+                      name="instructions"
+                      className="form-control"
+                      id="Instructions"
+                      value={instructions}
+                    />
+                  </div>
+                  <div className="col-3">
+                    <label htmlFor="optional" className="form-label">
+                      Optional
+                    </label>
+                    <select
+                      className="form-select"
+                      name="optional"
+                      id="optional"
+                      aria-label="Default select example"
+                    >
+                      <option defaultValue>Choose:</option>
+                      <option value="true">True</option>
+                      <option value="false">False</option>
+                    </select>
+                  </div>
+                </div>
+              );
+            })}
+
+            <a className="nav-links col w-100">Add Instructions</a>
           </div>
         </div>
       </div>
